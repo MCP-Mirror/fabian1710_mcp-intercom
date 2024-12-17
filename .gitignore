@@ -1,1 +1,27 @@
-IyBEZXBlbmRlbmNpZXMKbm9kZV9tb2R1bGVzLwp5YXJuLmxvY2sKcGFja2FnZS1sb2NrLmpzb24KCiMgQnVpbGQgb3V0cHV0CmRpc3QvCmJ1aWxkLwoKIyBFbnZpcm9ubWVudCB2YXJpYWJsZXMKLmVudgouZW52LmxvY2FsCgojIElERSBmaWxlcwoudnNjb2RlLwouaWRlYS8KKi5zd3AKCiMgTG9ncwoqLmxvZwpucG0tZGVidWcubG9nKgp5YXJuLWRlYnVnLmxvZyoKeWFybi1lcnJvci5sb2cqCgojIE9TIGZpbGVzCi5EU19TdG9yZQpUaHVtYnMuZGI=
+# Dependencies
+node_modules/
+yarn.lock
+package-lock.json
+
+# Build output
+dist/
+build/
+
+# Environment variables
+.env
+.env.local
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS files
+.DS_Store
+Thumbs.db
