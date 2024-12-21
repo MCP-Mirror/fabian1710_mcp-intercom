@@ -74,20 +74,23 @@ npm start
 
 ### Available Tools
 
-#### get-conversations
+#### search-conversations
 
-Retrieves Intercom conversations with optional filters.
+Searches Intercom conversations with optional filters.
 
 Parameters:
-- `startDate` (optional): Start date for filtering conversations (ISO format)
-- `endDate` (optional): End date for filtering conversations (ISO format)
-- `customer` (optional): Customer ID to filter conversations
-- `state` (optional): Conversation state to filter by (e.g., "open", "closed")
+- `createdAt` (optional): Object with `operator` (e.g., ">", "<", "=") and `value` (UNIX timestamp) for filtering by creation date.
+- `updatedAt` (optional): Object with `operator` (e.g., ">", "<", "=") and `value` (UNIX timestamp) for filtering by update date.
+- `sourceType` (optional): Source type of the conversation (e.g., "email", "chat").
+- `state` (optional): Conversation state to filter by (e.g., "open", "closed").
+- `open` (optional): Boolean to filter by open status.
+- `read` (optional): Boolean to filter by read status.
 
 Example queries:
-- "Show me all open Intercom conversations from the last week"
-- "Get Intercom conversations for customer ABC123"
-- "List all closed Intercom conversations from January 2024"
+- "Search for all conversations created after January 1, 2024"
+- "Find conversations updated before last week"
+- "List all open email conversations"
+- "Get all unread conversations"
 
 ## Security
 
