@@ -5,7 +5,7 @@ import {
   ListToolsRequestSchema,
 } from "@modelcontextprotocol/sdk/types.js";
 import { IntercomClient } from "./api/client.js";
-import { SearchConversationsSchema } from "./tools/conversations.js";
+import { SearchConversationsSchema, listConversationsFromLastWeek } from "./tools/conversations.js";
 import { z } from "zod";
 const server = new Server(
   {
@@ -19,6 +19,11 @@ const server = new Server(
           description:
             "Search Intercom conversations with filters for created_at, updated_at, source type, state, open, and read status",
           inputSchema: SearchConversationsSchema,
+          outputSchema: z.any(),
+        },
+        "list-conversations-from-last-week": {
+          description: "Fetch all conversations from the last week (last 7 days)",
+          inputSchema: z.object({}),
           outputSchema: z.any(),
         },
       },
@@ -84,6 +89,14 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
           },
         },
       },
+      {
+        name: "list-conversations-from-last-week",
+        description: "Fetch all conversations from the last week (last 7 days)",
+        inputSchema: {
+          type: "object",
+          properties: {},
+        },
+      },
     ],
   };
 });
@@ -100,6 +113,32 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         validatedArgs
       );
 
+      return {
+        content: [
+          {
+            type: "text",
+            text: JSON.stringify(conversations, null, 2),
+          },
+        ],
+      };
+    } catch (error) {
+      if (error instanceof Error) {
+        return {
+          content: [
+            {
+              type: "text",
+              text: `Error: ${error.message}`,
+            },
+          ],
+        };
+      }
+      throw error;
+    }
+  }
+
+  if (name === "list-conversations-from-last-week") {
+    try {
+      const conversations = await listConversationsFromLastWeek();
       return {
         content: [
           {

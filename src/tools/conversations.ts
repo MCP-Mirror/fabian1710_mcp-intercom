@@ -61,7 +61,41 @@ export async function searchConversations(
     updated_at: new Date(conv.updated_at * 1000).toISOString(),
     state: conv.state,
     priority: conv.priority,
+    contacts: conv.contacts.map((contact) => ({
+      name: contact.name,
+      id: contact.id,
+      
+    })),
+
   }));
+}
+
+export async function listConversationsFromLastWeek() {
+  // Calculate last week's date range
+  const client = new IntercomClient();
+  const now = new Date();
+  const lastWeekStart = new Date(now);
+  lastWeekStart.setDate(now.getDate() - 7);
+  lastWeekStart.setHours(0, 0, 0, 0);
+
+  const lastWeekEnd = new Date(lastWeekStart);
+  lastWeekEnd.setDate(lastWeekStart.getDate() + 6);
+  lastWeekEnd.setHours(23, 59, 59, 999);
+
+  // Convert to Unix timestamp (seconds)
+  const startTimestamp = Math.floor(lastWeekStart.getTime() / 1000);
+  const endTimestamp = Math.floor(lastWeekEnd.getTime() / 1000);
+
+  return client.searchConversations({
+    createdAt: {
+      operator: ">",
+      value: startTimestamp,
+    },
+    updatedAt: {
+      operator: "<",
+      value: endTimestamp,
+    },
+  });
 }
 
 // export async function getConversations(

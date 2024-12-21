@@ -1,4 +1,3 @@
-import { z } from "zod";
 import dotenv from "dotenv";
 import { IntercomConversation } from "../types/intercom.js";
 
