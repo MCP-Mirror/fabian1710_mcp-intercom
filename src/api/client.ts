@@ -1,5 +1,6 @@
 import dotenv from "dotenv";
 import { IntercomConversation } from "../types/intercom.js";
+import axios from "axios";
 
 dotenv.config();
 
@@ -25,20 +26,14 @@ export class IntercomClient {
       url.searchParams.append(key, value);
     });
 
-    const response = await fetch(url, {
+    const response = await axios.get(url.toString(), {
       headers: {
         Authorization: `Bearer ${this.apiKey}`,
         Accept: "application/json",
       },
     });
 
-    if (!response.ok) {
-      throw new Error(
-        `Intercom API error: ${response.status} ${response.statusText}`
-      );
-    }
-
-    return response.json() as Promise<T>;
+    return response.data as T;
   }
 
   async searchConversations(
@@ -109,23 +104,19 @@ export class IntercomClient {
       },
     };
 
-    const response = await fetch(`${INTERCOM_API_BASE}/conversations/search`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${this.apiKey}`,
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        "Intercom-Version": "2.11",
-      },
-      body: JSON.stringify(body),
-    });
+    const response = await axios.post(
+      `${INTERCOM_API_BASE}/conversations/search`,
+      body,
+      {
+        headers: {
+          Authorization: `Bearer ${this.apiKey}`,
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "Intercom-Version": "2.11",
+        },
+      }
+    );
 
-    if (!response.ok) {
-      throw new Error(
-        `Intercom API error: ${response.status} ${response.statusText}`
-      );
-    }
-
-    return response.json() as Promise<{ conversations: IntercomConversation[] }>;
+    return response.data as { conversations: IntercomConversation[] };
   }
 }

@@ -14,12 +14,18 @@
     "lint": "eslint src --ext .ts",
     "test": "jest"
   },
-  "keywords": ["mcp", "intercom", "chat"],
+  "keywords": [
+    "mcp",
+    "intercom",
+    "chat"
+  ],
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^0.1.0",
+    "@modelcontextprotocol/sdk": "^1.0.4",
+    "axios": "^1.7.9",
     "dotenv": "^16.3.1",
+    "node-fetch": "^3.3.2",
     "zod": "^3.22.4"
   },
   "devDependencies": {
